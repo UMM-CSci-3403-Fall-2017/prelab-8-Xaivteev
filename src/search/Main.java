@@ -36,6 +36,7 @@ public class Main {
     return searcher.parSearch(4, target, list);
     
     //Linear search option:
+    //used to see what the results should be
 //    LinearSearch<Integer> searcher=new LinearSearch<Integer>();
 //    return searcher.search(target, list);
   }

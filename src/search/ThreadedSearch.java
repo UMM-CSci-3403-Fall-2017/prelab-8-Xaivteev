@@ -48,14 +48,18 @@ public class ThreadedSearch<T> implements Runnable {
     * in the shared `Answer` instance.
     */
 	  
+	  //initialize variables
 	  Answer ans = new Answer();
 	  ThreadedSearch<T> ts = null;
 	  Thread[] threads = new Thread[numThreads];
 	  
+	  //used to designate the "end" of each section (rounded up to avoid decimals)
 	  double section = Math.ceil(list.size()/numThreads);
 	  
 	  for(int i = 0; i < numThreads; i++){
+		  //uses Math.min to avoid giving an index greater than the size of the list in a scenario where the list isn't evenly divided by numThreads
 		  ts = new ThreadedSearch<T>(target, list, (int) (i*section), (int) Math.min(list.size(), (i+1) * section), ans);
+		  
 		  threads[i] = new Thread(ts);
 		  threads[i].start();
 	  }
@@ -69,9 +73,11 @@ public class ThreadedSearch<T> implements Runnable {
 
   public void run() {
 	  for(int i=begin; i<end; i++){
+		  //avoid doing extra work if the answer is found
+		  if(answer.getAnswer()) break;
+		  
           if(list.get(i).equals(target)) {
               answer.setAnswer(true);
-              break;
           }
       }
   }
